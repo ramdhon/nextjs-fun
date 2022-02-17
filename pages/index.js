@@ -3,7 +3,7 @@ import { useContext } from 'react'
 import AppContext from '../context'
 
 export default function Home() {
-  const value = useContext(AppContext)
+  const { state } = useContext(AppContext)
 
   return (
     <div>
@@ -14,7 +14,7 @@ export default function Home() {
       </Head>
 
       <main>
-        <h1>Hello World. {value.state.theme}</h1>
+        <h1>Hello World. {state.theme}</h1>
       </main>
 
       <footer>
