@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.css'
-import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap'
+import { Navbar, Container, Nav, NavDropdown, Form } from 'react-bootstrap'
 import { useState, useEffect } from 'react'
 import AppContext from '../context'
 
@@ -10,7 +10,10 @@ const Constant = {
   DARK: 'dark'
 }
 function MyApp({ Component, pageProps }) {
+  // STATE HOOKS
   const [theme, setTheme] = useState(Constant.LIGHT);
+  
+  // CONTEXT
   const context = {
     state: {
       Constant,
@@ -19,13 +22,26 @@ function MyApp({ Component, pageProps }) {
     setTheme,
   }
 
+  // COMPUTED
+  const isDark = () => theme === Constant.DARK
+  const darkMode = () => isDark() ? "text-white" : "text-black"
+  // METHODS
+  const changeTheme = (e) => {
+    if (e.target.checked === true) {
+      setTheme(Constant.DARK)
+    } else {
+      setTheme(Constant.LIGHT)
+    }
+  }
+
+  // LIFECYCLE HOOKS
   useEffect(() => {
     import("bootstrap/dist/js/bootstrap");
   }, []);
 
   return (
     <Provider value={context}>
-      <Navbar bg="light" expand="lg">
+      <Navbar bg={theme} variant={theme} expand="lg">
         <Container>
           <Navbar.Brand href="/">My Next Fun</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -41,6 +57,15 @@ function MyApp({ Component, pageProps }) {
                 <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
               </NavDropdown>
             </Nav>
+            <Form className={darkMode()}>
+              <Form.Check
+                checked={isDark()}
+                onChange={changeTheme}
+                type="switch"
+                id="dark-mode"
+                label="Dark mode"
+              />
+            </Form>
           </Navbar.Collapse>
         </Container>
       </Navbar>
