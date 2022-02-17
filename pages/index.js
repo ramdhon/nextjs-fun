@@ -1,6 +1,10 @@
 import Head from 'next/head'
+import { useContext } from 'react'
+import AppContext from '../context'
 
 export default function Home() {
+  const value = useContext(AppContext)
+
   return (
     <div>
       <Head>
@@ -10,7 +14,7 @@ export default function Home() {
       </Head>
 
       <main>
-        <h1>Hello World</h1>
+        <h1>Hello World. {value.state.theme}</h1>
       </main>
 
       <footer>

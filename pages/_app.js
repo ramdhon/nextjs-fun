@@ -17,7 +17,7 @@ function MyApp({ Component, pageProps }) {
   const context = {
     state: {
       Constant,
-      theme: 'light'
+      theme
     },
     setTheme,
   }
