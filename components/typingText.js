@@ -9,8 +9,14 @@ export default function TypingText({ delay: delayToType = 0, component = 'h1', c
   // METHODS
   const startTyping = async () => {
     for (const letter of text) {
-      setGeneratedText((prev) => prev + letter)      
-      await delay(50);
+      setGeneratedText((prev) => prev + letter)
+      const spaceChar = letter === ' '
+      const random = Math.random() > 0.9;
+      if (spaceChar && random) {
+        await delay(2000);
+      } else {
+        await delay(50);
+      }
     }
   }
   const playCursor = () => {
