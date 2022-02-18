@@ -16,7 +16,7 @@ export default function TodoForm({ addToTaskList, clearTaskList }) {
     setTask(e.target.value)
   }
   const handleRemoveAll = () => {
-    POPUP.$confirm()
+    POPUP.$confirm('Info', 'Are you sure to remove all your todo?')
       .then(() => {
         return REMOVE_ALL_TODO()
       })
