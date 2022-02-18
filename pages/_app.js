@@ -9,19 +9,11 @@ const Constant = {
   LIGHT: 'light',
   DARK: 'dark'
 }
+
 function MyApp({ Component, pageProps }) {
   // STATE HOOKS
   const [theme, setTheme] = useState(Constant.LIGHT);
   
-  // CONTEXT
-  const context = {
-    state: {
-      Constant,
-      theme
-    },
-    setTheme,
-  }
-
   // COMPUTED
   const isDark = () => theme === Constant.DARK
   const darkMode = () => isDark() ? "text-white" : "text-black"
@@ -34,14 +26,24 @@ function MyApp({ Component, pageProps }) {
     }
   }
 
+  // CONTEXT
+  const context = {
+    state: {
+      Constant,
+      theme
+    },
+    setTheme,
+    isDark,
+  }
+
   // LIFECYCLE HOOKS
   useEffect(() => {
-    import("bootstrap/dist/js/bootstrap");
-  }, []);
+    import('bootstrap/dist/js/bootstrap')
+  }, [])
 
   return (
     <Provider value={context}>
-      <Navbar bg={theme} variant={theme} expand="lg">
+      <Navbar fixed="top" bg={theme} variant={theme} expand="lg">
         <Container>
           <Navbar.Brand href="/">My Next Fun</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />

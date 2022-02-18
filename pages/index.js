@@ -1,9 +1,44 @@
 import Head from 'next/head'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import { Container, Row } from 'react-bootstrap'
 import AppContext from '../context'
 
 export default function Home() {
-  const { state } = useContext(AppContext)
+  const { state, isDark } = useContext(AppContext)
+  const [hello, setHello] = useState('')
+  const [cursor, setCursor] = useState(false)
+  const [isGreet, setIsGreet] = useState(false)
+
+  // COMPUTED
+  const greeting = () => state.theme === 'light' ? 'GOOD DAY!' : 'GOOD EVENING!'
+  const darkMode = () => isDark() ? 'bg-secondary text-white' : ''
+
+  // METHODS
+  const delay = async (ms) => {
+    return new Promise (resolve => {
+      setTimeout(() => {
+        resolve()
+      }, ms)
+    })
+  }
+  const startTyping = async () => {
+    const HELLO = 'Hello World!!!'
+    for (const letter of HELLO) {
+      setHello((prev) => prev + letter)      
+      await delay(50);
+    }
+    setIsGreet(true)
+  }
+  const playCursor = () => {
+    setInterval(() => {
+      setCursor((prev) => !prev)
+    }, 500)
+  }
+  
+  useEffect(() => {
+    startTyping()
+    playCursor()
+  }, [])
 
   return (
     <div>
@@ -13,13 +48,16 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
-        <h1>Hello World. {state.theme}</h1>
+      <main className={darkMode()}>
+        <Container className="vh-100 d-flex flex-column justify-content-center align-items-center">
+          <Row>
+            <h1>{hello}{cursor ? <span>_</span> : <span>&nbsp;&nbsp;&nbsp;</span>}</h1>
+          </Row>
+          <Row>
+            <h2>{isGreet && greeting()}</h2>
+          </Row>
+        </Container>
       </main>
-
-      <footer>
-        This will be my footer
-      </footer>
     </div>
   )
 }
