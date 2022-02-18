@@ -1,7 +1,8 @@
-import { Container, Row, Form, Button, Table } from "react-bootstrap";
+import { Container, Row, Table } from "react-bootstrap";
+import { useEffect, useState, useContext } from "react";
 import TodoTitle from '../components/Todo/title'
 import TodoForm from '../components/Todo/form'
-import { useState } from "react";
+import AppContext from '../context'
 
 const Constant = {
   PROGRESS: 'in progress',
@@ -9,17 +10,36 @@ const Constant = {
 }
 
 export default function Todo() {
+  const { api: { ADD_TODO, GET_TODO } } = useContext(AppContext)
   const [taskList, setTaskList] = useState([])
+
   // METHODS
   const addToTaskList = (input) => {
-    setTaskList([
-      {
-        task: input,
-        status: Constant.PROGRESS
-      },
-      ...taskList,
-    ])
+    const todo = {
+      task: input,
+      status: Constant.PROGRESS
+    }
+    ADD_TODO(todo)
+      .then(result => {
+        if (!result) {
+          return
+        }
+        setTaskList([
+          result,
+          ...taskList
+        ])
+      })
   }
+  const getTaskList = () => {
+    GET_TODO()
+      .then(result => {
+        setTaskList(result)
+      })
+  }
+
+  useEffect(() => {
+    getTaskList()
+  }, [])
 
   return (
     <Container>

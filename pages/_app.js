@@ -43,11 +43,43 @@ function MyApp({ Component, pageProps }) {
     })
   }
 
+  // API methods
+  const ADD_TODO = async (todo) => {
+    let todoList = localStorage.getItem('todo-memory', )
+    if (!todoList) {
+      todoList = '[]'
+    }
+    try {
+      todoList = JSON.parse(todoList)
+      todoList = [todo, ...todoList]
+      todoList = JSON.stringify(todoList)
+      localStorage.setItem('todo-memory', todoList)
+      return todo
+    } catch (err) {
+      return
+    }
+  }
+  const GET_TODO = async () => {
+    let todoList = localStorage.getItem('todo-memory', )
+    if (!todoList) {
+      todoList = '[]'
+    }
+    try {
+      return JSON.parse(todoList)
+    } catch (err) {
+      return []
+    }
+  }
+
   // CONTEXT
   const context = {
     state: {
       Constant,
       theme
+    },
+    api: {
+      ADD_TODO,
+      GET_TODO
     },
     setTheme,
     isDark,
