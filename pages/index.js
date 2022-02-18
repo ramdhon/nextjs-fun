@@ -4,7 +4,7 @@ import { Container, Row } from 'react-bootstrap'
 import AppContext from '../context'
 
 export default function Home() {
-  const { state, isDark } = useContext(AppContext)
+  const { state, isDark, delay } = useContext(AppContext)
   const [hello, setHello] = useState('')
   const [cursor, setCursor] = useState(false)
   const [isGreet, setIsGreet] = useState(false)
@@ -14,19 +14,13 @@ export default function Home() {
   const darkMode = () => isDark() ? 'bg-secondary text-white' : ''
 
   // METHODS
-  const delay = async (ms) => {
-    return new Promise (resolve => {
-      setTimeout(() => {
-        resolve()
-      }, ms)
-    })
-  }
   const startTyping = async () => {
     const HELLO = 'Hello World!!!'
     for (const letter of HELLO) {
       setHello((prev) => prev + letter)      
       await delay(50);
     }
+    await delay(1000);
     setIsGreet(true)
   }
   const playCursor = () => {

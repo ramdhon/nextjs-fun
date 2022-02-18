@@ -25,6 +25,13 @@ function MyApp({ Component, pageProps }) {
       setTheme(Constant.LIGHT)
     }
   }
+  const delay = async (ms) => {
+    return new Promise (resolve => {
+      setTimeout(() => {
+        resolve()
+      }, ms)
+    })
+  }
 
   // CONTEXT
   const context = {
@@ -34,6 +41,7 @@ function MyApp({ Component, pageProps }) {
     },
     setTheme,
     isDark,
+    delay,
   }
 
   // LIFECYCLE HOOKS
