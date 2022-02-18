@@ -53,7 +53,10 @@ export default function Todo() {
         setTaskList(cloned)
       })
       .catch((err) => {
-        alert(err.message)
+        if (!err) {
+          return
+        }
+        alert(err?.message)
       })
   }
 
