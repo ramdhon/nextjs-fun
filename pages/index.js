@@ -45,7 +45,7 @@ export default function Home() {
       <main className={darkMode()}>
         <Container className="vh-100 d-flex flex-column justify-content-center align-items-center">
           <Row>
-            <h1>{hello}{cursor ? <span>_</span> : <span>&nbsp;&nbsp;&nbsp;</span>}</h1>
+            <h1>{hello}{cursor ? <span>_</span> : <span style={{marginLeft: '5px'}}>&nbsp;&nbsp;</span>}</h1>
           </Row>
           <Row>
             <h2>{isGreet && greeting()}</h2>
