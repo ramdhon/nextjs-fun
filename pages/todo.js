@@ -10,7 +10,7 @@ const Constant = {
 }
 
 export default function Todo() {
-  const { api: { ADD_TODO, GET_TODO } } = useContext(AppContext)
+  const { POPUP, api: { ADD_TODO, GET_TODO, DELETE_TODO } } = useContext(AppContext)
   const [taskList, setTaskList] = useState([])
 
   // METHODS
@@ -42,6 +42,20 @@ export default function Todo() {
   const clearTaskList = () => {
     setTaskList([])
   }
+  const handleDeleteOne = (index) => {
+    POPUP.$confirm('Info', 'Are you sure to delete this one?')
+      .then(() => {
+        return DELETE_TODO(index)
+      })
+      .then(result => {
+        const cloned = [...taskList]
+        cloned.splice(result, 1)
+        setTaskList(cloned)
+      })
+      .catch((err) => {
+        alert(err.message)
+      })
+  }
 
   useEffect(() => {
     getTaskList()
@@ -72,7 +86,7 @@ export default function Todo() {
               taskList.length > 0
               ?
               taskList.map((item, index) => (
-                <tr key={`item-${index}`}>
+                <tr key={`item-${index}`} onDoubleClick={() => handleDeleteOne(index)}>
                   <td>{index + 1}</td>
                   <td>{item.task}</td>
                   <td>{item.status}</td>

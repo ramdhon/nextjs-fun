@@ -112,6 +112,21 @@ function MyApp({ Component, pageProps }) {
     async REMOVE_ALL_TODO() {
       localStorage.removeItem('todo-memory')
       return
+    },
+    async DELETE_TODO(index) {
+      let todoList = localStorage.getItem('todo-memory', )
+      if (!todoList) {
+        return
+      }
+      try {
+        todoList = JSON.parse(todoList)
+        todoList.splice(index, 1)
+        todoList = JSON.stringify(todoList)
+        localStorage.setItem('todo-memory', todoList)
+        return index
+      } catch (err) {
+        return
+      }
     }
   }
   

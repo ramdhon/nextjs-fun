@@ -24,7 +24,7 @@ export default function TodoForm({ addToTaskList, clearTaskList }) {
         clearTaskList()
       })
       .catch((err) => {
-        console.log(err)
+        alert(err.message)
       })
   }
 
