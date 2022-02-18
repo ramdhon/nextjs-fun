@@ -21,8 +21,18 @@ function MyApp({ Component, pageProps }) {
   const changeTheme = (e) => {
     if (e.target.checked === true) {
       setTheme(Constant.DARK)
+      localStorage.setItem('darkMode', true);
     } else {
       setTheme(Constant.LIGHT)
+      localStorage.removeItem('darkMode');
+    }
+  }
+  const checkDarkMode = () => {
+    const darkMode = localStorage.getItem('darkMode');
+    if (!darkMode) {
+      setTheme(Constant.LIGHT)
+    } else {
+      setTheme(Constant.DARK)
     }
   }
   const delay = async (ms) => {
@@ -47,6 +57,7 @@ function MyApp({ Component, pageProps }) {
   // LIFECYCLE HOOKS
   useEffect(() => {
     import('bootstrap/dist/js/bootstrap')
+    checkDarkMode()
   }, [])
 
   return (
