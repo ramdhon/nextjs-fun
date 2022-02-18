@@ -2,36 +2,21 @@ import Head from 'next/head'
 import { useContext, useEffect, useState } from 'react'
 import { Container, Row } from 'react-bootstrap'
 import AppContext from '../context'
+import TypingText from '../components/typingText'
 
 export default function Home() {
   const { state, isDark, delay } = useContext(AppContext)
-  const [hello, setHello] = useState('')
-  const [cursor, setCursor] = useState(false)
   const [isGreet, setIsGreet] = useState(false)
 
   // COMPUTED
   const greeting = () => state.theme === 'light' ? 'GOOD DAY!' : 'GOOD EVENING!'
   const darkMode = () => isDark() ? 'bg-secondary text-white' : ''
 
-  // METHODS
-  const startTyping = async () => {
-    const HELLO = 'Hello World!!!'
-    for (const letter of HELLO) {
-      setHello((prev) => prev + letter)      
-      await delay(50);
-    }
-    await delay(1000);
-    setIsGreet(true)
-  }
-  const playCursor = () => {
-    setInterval(() => {
-      setCursor((prev) => !prev)
-    }, 500)
-  }
-  
   useEffect(() => {
-    startTyping()
-    playCursor()
+    (async () => {
+      await delay(5000)
+      setIsGreet(true);
+    })()
   }, [])
 
   return (
@@ -45,7 +30,13 @@ export default function Home() {
       <main className={darkMode()}>
         <Container className="vh-100 d-flex flex-column justify-content-center align-items-center">
           <Row>
-            <h1>{hello}{cursor ? <span>_</span> : <span style={{marginLeft: '5px'}}>&nbsp;&nbsp;</span>}</h1>
+            <TypingText>Hello World!</TypingText>
+          </Row>
+          <Row>
+            <TypingText delay={1000} component="p">My name is dhoni</TypingText>
+          </Row>
+          <Row>
+            <TypingText delay={2000} component="h3">Resolving inquiries by using tech...</TypingText>
           </Row>
           <Row>
             <h2>{isGreet && greeting()}</h2>
