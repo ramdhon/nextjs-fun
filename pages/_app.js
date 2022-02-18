@@ -2,17 +2,29 @@ import 'bootstrap/dist/css/bootstrap.css'
 import { Navbar, Container, Nav, NavDropdown, Form } from 'react-bootstrap'
 import { useState, useEffect } from 'react'
 import AppContext from '../context'
+import PopUp from '../components/popup'
 
 const { Provider } = AppContext
 
 const Constant = {
   LIGHT: 'light',
-  DARK: 'dark'
+  DARK: 'dark',
+  RESETPOPUP: {
+    show: false,
+    cancelable: false,
+    closeable: false,
+    title: '',
+    body: '',
+    confirm: '',
+    resolve: null,
+    reject: null
+  }
 }
 
 function MyApp({ Component, pageProps }) {
   // STATE HOOKS
   const [theme, setTheme] = useState(Constant.LIGHT);
+  const [popup, setPopup] = useState(Constant.RESETPOPUP)
   
   // COMPUTED
   const isDark = () => theme === Constant.DARK
@@ -42,46 +54,78 @@ function MyApp({ Component, pageProps }) {
       }, ms)
     })
   }
-
-  // API methods
-  const ADD_TODO = async (todo) => {
-    let todoList = localStorage.getItem('todo-memory', )
-    if (!todoList) {
-      todoList = '[]'
+  
+  // POPUP
+  const POPUP = {
+    '$confirm'(
+    title = 'Info',
+    body = 'Are you sure?', 
+    {
+      cancelable = true,
+      closeable = true,
+      confirm = 'Confirm'
+    } = {}) {
+      return new Promise((resolve, reject) => {
+        setPopup({
+          ...popup,
+          show: true,
+          title,
+          body,
+          cancelable,
+          closeable,
+          confirm,
+          resolve,
+          reject
+        })
+      })
     }
-    try {
-      todoList = JSON.parse(todoList)
-      todoList = [todo, ...todoList]
-      todoList = JSON.stringify(todoList)
-      localStorage.setItem('todo-memory', todoList)
-      return todo
-    } catch (err) {
+  }
+
+  // API METHODS
+  const api = {
+    async ADD_TODO(todo) {
+      let todoList = localStorage.getItem('todo-memory', )
+      if (!todoList) {
+        todoList = '[]'
+      }
+      try {
+        todoList = JSON.parse(todoList)
+        todoList = [todo, ...todoList]
+        todoList = JSON.stringify(todoList)
+        localStorage.setItem('todo-memory', todoList)
+        return todo
+      } catch (err) {
+        return
+      }
+    },
+    async GET_TODO () {
+      let todoList = localStorage.getItem('todo-memory', )
+      if (!todoList) {
+        todoList = '[]'
+      }
+      try {
+        return JSON.parse(todoList)
+      } catch (err) {
+        return []
+      }
+    },
+    async REMOVE_ALL_TODO() {
+      localStorage.removeItem('todo-memory')
       return
     }
   }
-  const GET_TODO = async () => {
-    let todoList = localStorage.getItem('todo-memory', )
-    if (!todoList) {
-      todoList = '[]'
-    }
-    try {
-      return JSON.parse(todoList)
-    } catch (err) {
-      return []
-    }
-  }
-
+  
   // CONTEXT
   const context = {
     state: {
       Constant,
-      theme
+      theme,
+      popup,
     },
-    api: {
-      ADD_TODO,
-      GET_TODO
-    },
+    api,
+    POPUP,
     setTheme,
+    setPopup,
     isDark,
     delay,
   }
@@ -122,6 +166,7 @@ function MyApp({ Component, pageProps }) {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      <PopUp />
       <Component {...pageProps} />
     </Provider>
   )

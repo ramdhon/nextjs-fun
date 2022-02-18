@@ -15,6 +15,9 @@ export default function Todo() {
 
   // METHODS
   const addToTaskList = (input) => {
+    if (!input) {
+      return
+    }
     const todo = {
       task: input,
       status: Constant.PROGRESS
@@ -36,6 +39,9 @@ export default function Todo() {
         setTaskList(result)
       })
   }
+  const clearTaskList = () => {
+    setTaskList([])
+  }
 
   useEffect(() => {
     getTaskList()
@@ -50,7 +56,7 @@ export default function Todo() {
         <TodoTitle />
       </Row>
       <Row>
-        <TodoForm addToTaskList={addToTaskList} />
+        <TodoForm addToTaskList={addToTaskList} clearTaskList={clearTaskList} />
       </Row>
       <Row className="mt-5">
         <Table striped hover size="sm">

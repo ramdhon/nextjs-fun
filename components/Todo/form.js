@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { Form, Button } from 'react-bootstrap'
+import AppContext from '../../context'
 
-export default function TodoForm({ addToTaskList }) {
+export default function TodoForm({ addToTaskList, clearTaskList }) {
+  const { POPUP, api: { REMOVE_ALL_TODO } } = useContext(AppContext)
   const [task, setTask] = useState('')
 
   // METHODS
@@ -13,6 +15,18 @@ export default function TodoForm({ addToTaskList }) {
   const handleTextChange = (e) => {
     setTask(e.target.value)
   }
+  const handleRemoveAll = () => {
+    POPUP.$confirm()
+      .then(() => {
+        return REMOVE_ALL_TODO()
+      })
+      .then(() => {
+        clearTaskList()
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
 
   return (
     <Form onSubmit={addTask}>
@@ -23,6 +37,9 @@ export default function TodoForm({ addToTaskList }) {
 
       <Button onClick={addTask} variant="primary" type="submit">
         Add
+      </Button>
+      <Button onClick={handleRemoveAll} className="ms-3" variant="danger">
+        Remove All
       </Button>
     </Form>
   )
