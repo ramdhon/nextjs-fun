@@ -3,7 +3,7 @@ import { Form, Button } from 'react-bootstrap'
 import AppContext from '../../context'
 
 export default function TodoForm({ addToTaskList, clearTaskList }) {
-  const { POPUP, api: { REMOVE_ALL_TODO } } = useContext(AppContext)
+  const { darkPrimaryMode, darkSecondaryMode, POPUP, api: { REMOVE_ALL_TODO } } = useContext(AppContext)
   const [task, setTask] = useState('')
 
   // METHODS
@@ -38,10 +38,10 @@ export default function TodoForm({ addToTaskList, clearTaskList }) {
         <Form.Control value={task} onChange={handleTextChange} type="text" placeholder="Write the task" />
       </Form.Group>
 
-      <Button onClick={addTask} variant="primary" type="submit">
+      <Button onClick={addTask} variant={darkPrimaryMode()} type="submit">
         Add
       </Button>
-      <Button onClick={handleRemoveAll} className="ms-3" variant="danger">
+      <Button onClick={handleRemoveAll} className="ms-3" variant={darkSecondaryMode()}>
         Remove All
       </Button>
     </Form>

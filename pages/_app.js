@@ -32,6 +32,11 @@ function MyApp({ Component, pageProps }) {
   const isDark = () => theme === Constant.DARK
   const darkModeForm = () => isDark() ? "text-white" : "text-black"
   const darkModeBg = () => isDark() ? 'bg-secondary text-white' : ''
+  const darkModeHead = () => isDark() ? 'bg-dark text-white' : ''
+  const darkPrimaryMode = () => isDark() ? 'primary' : 'primary'
+  const darkSecondaryMode = () => isDark() ? 'light' : 'danger'
+  const darkThirdMode = () => isDark() ? 'light' : 'secondary'
+
   // METHODS
   const changeTheme = (e) => {
     if (e.target.checked === true) {
@@ -166,7 +171,11 @@ function MyApp({ Component, pageProps }) {
     setPopup,
     isDark,
     delay,
-    darkModeBg
+    darkModeBg,
+    darkModeHead,
+    darkPrimaryMode,
+    darkSecondaryMode,
+    darkThirdMode
   }
 
   // LIFECYCLE HOOKS

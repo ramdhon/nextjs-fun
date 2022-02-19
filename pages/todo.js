@@ -89,7 +89,7 @@ export default function Todo() {
       </Head>
 
       <main className={darkModeBg()}>
-        <Container className="vh-100">
+        <Container style={{ minHeight: '100vh' }}>
           <div className="py-5"></div>
 
           <Row>

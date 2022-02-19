@@ -3,8 +3,9 @@ import { useContext } from 'react'
 import AppContext from '../context'
 
 export default function PopUp() {
-  const { state: { Constant, popup }, setPopup } = useContext(AppContext)
+  const { darkPrimaryMode, darkThirdMode, darkModeHead, darkModeBg, isDark, state: { Constant, popup }, setPopup } = useContext(AppContext)
 
+  const closeModal = () => isDark() && 'white'
   // METHODS
   const handleClose = () => {
     popup.reject()
@@ -17,21 +18,21 @@ export default function PopUp() {
 
   return (
     <Modal show={popup.show} onHide={handleClose}>
-      <Modal.Header closeButton={popup.closeable}>
+      <Modal.Header className={darkModeHead()} closeVariant={closeModal()} closeButton={popup.closeable}>
         <Modal.Title>{popup.title}</Modal.Title>
       </Modal.Header>
 
-      <Modal.Body>
+      <Modal.Body className={darkModeBg()}>
         <p>{popup.body}</p>
       </Modal.Body>
 
-      <Modal.Footer>
+      <Modal.Footer className={darkModeBg()}>
         {
           popup.cancelable
           &&
-          <Button onClick={handleClose} variant="secondary">Cancel</Button>
+          <Button onClick={handleClose} variant={darkThirdMode()}>Cancel</Button>
         }
-        <Button onClick={handleConfirm} variant="primary">{popup.confirm}</Button>
+        <Button onClick={handleConfirm} variant={darkPrimaryMode()}>{popup.confirm}</Button>
       </Modal.Footer>
     </Modal>
   )
