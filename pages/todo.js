@@ -4,13 +4,8 @@ import TodoTitle from '../components/Todo/title'
 import TodoForm from '../components/Todo/form'
 import AppContext from '../context'
 
-const Constant = {
-  PROGRESS: 'in progress',
-  DONE: 'done'
-}
-
 export default function Todo() {
-  const { POPUP, api: { ADD_TODO, GET_TODO, DELETE_TODO } } = useContext(AppContext)
+  const { state: { Constant }, POPUP, api: { ADD_TODO, GET_TODO, DELETE_TODO, EDIT_TODO } } = useContext(AppContext)
   const [taskList, setTaskList] = useState([])
 
   // METHODS
@@ -59,6 +54,26 @@ export default function Todo() {
         alert(err?.message)
       })
   }
+  const handleUpdateStatus = (index) => {
+    POPUP.$confirm('Info', 'Do you confirm this task done?')
+      .then(() => {
+        const selected = taskList[index]
+        selected.status = Constant.DONE
+        return EDIT_TODO(selected)
+      })
+      .then(result => {
+        let cloned = [...taskList]
+        cloned.splice(index, 1)
+        cloned = [result, ...cloned]
+        setTaskList(cloned)
+      })
+      .catch((err) => {
+        if (!err) {
+          return
+        }
+        alert(err?.message)
+      })
+  }
 
   useEffect(() => {
     getTaskList()
@@ -92,7 +107,7 @@ export default function Todo() {
                 <tr key={`item-${index}`} onDoubleClick={() => handleDeleteOne(index)}>
                   <td>{index + 1}</td>
                   <td>{item.task}</td>
-                  <td>{item.status}</td>
+                  <td onClick={() => handleUpdateStatus(index)}>{item.status}</td>
                 </tr>
               ))
               :

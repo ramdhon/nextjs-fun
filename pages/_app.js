@@ -9,6 +9,8 @@ const { Provider } = AppContext
 const Constant = {
   LIGHT: 'light',
   DARK: 'dark',
+  PROGRESS: 'in progress',
+  DONE: 'done',
   RESETPOPUP: {
     show: false,
     cancelable: false,
@@ -95,6 +97,7 @@ function MyApp({ Component, pageProps }) {
         localStorage.setItem('todo-memory', todoList)
         return todo
       } catch (err) {
+        localStorage.removeItem('todo-memory')
         return
       }
     },
@@ -106,6 +109,7 @@ function MyApp({ Component, pageProps }) {
       try {
         return JSON.parse(todoList)
       } catch (err) {
+        localStorage.removeItem('todo-memory')
         return []
       }
     },
@@ -125,6 +129,24 @@ function MyApp({ Component, pageProps }) {
         localStorage.setItem('todo-memory', todoList)
         return index
       } catch (err) {
+        localStorage.removeItem('todo-memory')
+        return
+      }
+    },
+    async EDIT_TODO(updatedTodo, index) {
+      let todoList = localStorage.getItem('todo-memory', )
+      if (!todoList) {
+        return
+      }
+      try {
+        todoList = JSON.parse(todoList) 
+        todoList.splice(index, 1)
+        todoList = [updatedTodo, ...todoList]
+        todoList = JSON.stringify(todoList)
+        localStorage.setItem('todo-memory', todoList)
+        return updatedTodo
+      } catch (err) {
+        localStorage.removeItem('todo-memory')
         return
       }
     }
