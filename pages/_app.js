@@ -30,7 +30,8 @@ function MyApp({ Component, pageProps }) {
   
   // COMPUTED
   const isDark = () => theme === Constant.DARK
-  const darkMode = () => isDark() ? "text-white" : "text-black"
+  const darkModeForm = () => isDark() ? "text-white" : "text-black"
+  const darkModeBg = () => isDark() ? 'bg-secondary text-white' : ''
   // METHODS
   const changeTheme = (e) => {
     if (e.target.checked === true) {
@@ -165,6 +166,7 @@ function MyApp({ Component, pageProps }) {
     setPopup,
     isDark,
     delay,
+    darkModeBg
   }
 
   // LIFECYCLE HOOKS
@@ -191,7 +193,7 @@ function MyApp({ Component, pageProps }) {
                 <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
               </NavDropdown>
             </Nav>
-            <Form className={darkMode()}>
+            <Form className={darkModeForm()}>
               <Form.Check
                 checked={isDark()}
                 onChange={changeTheme}

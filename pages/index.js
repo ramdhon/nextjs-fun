@@ -5,12 +5,11 @@ import AppContext from '../context'
 import TypingText from '../components/typingText'
 
 export default function Home() {
-  const { state, isDark, delay } = useContext(AppContext)
+  const { darkModeBg, state, delay } = useContext(AppContext)
   const [isGreet, setIsGreet] = useState(false)
 
   // COMPUTED
   const greeting = () => state.theme === 'light' ? 'GOOD DAY!' : 'GOOD EVENING!'
-  const darkMode = () => isDark() ? 'bg-secondary text-white' : ''
 
   useEffect(() => {
     (async () => {
@@ -27,7 +26,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={darkMode()}>
+      <main className={darkModeBg()}>
         <Container className="vh-100 d-flex flex-column justify-content-center align-items-center">
           <Row>
             <TypingText>Hello World!</TypingText>
