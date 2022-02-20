@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from 'react'
 import { Container, Row } from 'react-bootstrap'
 import AppContext from '../context'
 import TypingText from '../components/typingText'
+import Clock from '../components/clock'
 
 export default function Home() {
   const { darkModeBg, state, delay } = useContext(AppContext)
@@ -28,6 +29,9 @@ export default function Home() {
 
       <main className={darkModeBg()}>
         <Container className="vh-100 d-flex flex-column justify-content-center align-items-center">
+          <Row>
+            <Clock />
+          </Row>
           <Row>
             <TypingText>Hello World!</TypingText>
           </Row>

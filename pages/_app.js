@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.css'
-import { Navbar, Container, Nav, NavDropdown, Form } from 'react-bootstrap'
+import { Navbar, Container, Nav, NavDropdown, Form, SSRProvider } from 'react-bootstrap'
 import { useState, useEffect } from 'react'
 import AppContext from '../context'
 import PopUp from '../components/popup'
@@ -185,38 +185,41 @@ function MyApp({ Component, pageProps }) {
   }, [])
 
   return (
-    <Provider value={context}>
-      <Navbar fixed="top" bg={theme} variant={theme} expand="lg">
-        <Container>
-          <Navbar.Brand href="/">My Next Fun</Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-              <Nav.Link href="/">Home</Nav.Link>
-              <Nav.Link href="/todo">Todo</Nav.Link>
-              <NavDropdown title="Dropdown" id="app-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-              </NavDropdown>
-            </Nav>
-            <Form className={darkModeForm()}>
-              <Form.Check
-                checked={isDark()}
-                onChange={changeTheme}
-                type="switch"
-                id="dark-mode"
-                label="Dark mode"
-              />
-            </Form>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-      <PopUp />
-      <Component {...pageProps} />
-    </Provider>
+    <SSRProvider>
+
+      <Provider value={context}>
+        <Navbar fixed="top" bg={theme} variant={theme} expand="lg">
+          <Container>
+            <Navbar.Brand href="/">My Next Fun</Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="me-auto">
+                <Nav.Link href="/">Home</Nav.Link>
+                <Nav.Link href="/todo">Todo</Nav.Link>
+                <NavDropdown title="Dropdown" id="app-dropdown">
+                  <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+                </NavDropdown>
+              </Nav>
+              <Form className={darkModeForm()}>
+                <Form.Check
+                  checked={isDark()}
+                  onChange={changeTheme}
+                  type="switch"
+                  id="dark-mode"
+                  label="Dark mode"
+                />
+              </Form>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
+        <PopUp />
+        <Component {...pageProps} />
+      </Provider>
+    </SSRProvider>
   )
 }
 
