@@ -186,7 +186,6 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <SSRProvider>
-
       <Provider value={context}>
         <Navbar fixed="top" bg={theme} variant={theme} expand="lg">
           <Container>
